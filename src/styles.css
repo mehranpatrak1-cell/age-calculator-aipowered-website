@@ -1,0 +1,217 @@
+@import 'tailwindcss' source('../');
+
+@theme {
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, Menlo, monospace;
+  --font-sans: 'IBM Plex Sans', system-ui, sans-serif;
+}
+
+:root {
+  --paper: #f4ede1;
+  --paper-deep: #ebe1cf;
+  --ink: #1f1a15;
+  --muted: #6b6155;
+  --line: #d9cdb8;
+  --line-strong: #c9b99e;
+  --accent: #d9481c;
+}
+
+body {
+  @apply m-0 font-sans;
+  background:
+    radial-gradient(1200px 600px at 85% -10%, #f9d9b8 0%, transparent 60%),
+    radial-gradient(900px 500px at -10% 110%, #efdcc0 0%, transparent 60%),
+    var(--paper);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--paper);
+}
+
+@layer components {
+  .font-display {
+    font-variation-settings: 'opsz' 144;
+    font-weight: 400;
+  }
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .paper-card {
+    background: color-mix(in srgb, var(--paper) 80%, white);
+    border: 1px solid var(--line);
+    border-radius: 1.25rem;
+    box-shadow:
+      0 1px 0 white inset,
+      0 20px 40px -28px rgb(60 40 20 / 0.35);
+  }
+
+  .ink-card {
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 1.5rem;
+    box-shadow: 0 30px 60px -30px rgb(31 26 21 / 0.6);
+  }
+
+  .sunburst {
+    position: absolute;
+    right: -120px;
+    top: -120px;
+    width: 340px;
+    height: 340px;
+    border-radius: 50%;
+    background: repeating-conic-gradient(
+      from 0deg,
+      rgb(217 72 28 / 0.35) 0deg 3deg,
+      transparent 3deg 12deg
+    );
+    mask: radial-gradient(circle, black 30%, transparent 70%);
+    animation: spin 60s linear infinite;
+    pointer-events: none;
+  }
+
+  .rule {
+    border: 0;
+    border-top: 1px dashed var(--line-strong);
+  }
+
+  .date-input {
+    width: 100%;
+    font-family: var(--font-mono);
+    font-size: 1.15rem;
+    padding: 0.85rem 1rem;
+    border-radius: 0.85rem;
+    border: 1.5px solid var(--line-strong);
+    background: var(--paper);
+    color: var(--ink);
+    transition:
+      border-color 150ms,
+      box-shadow 150ms;
+  }
+  .date-input:hover {
+    border-color: var(--ink);
+  }
+  .date-input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px rgb(217 72 28 / 0.15);
+  }
+  .date-input[aria-invalid='true'] {
+    border-color: var(--accent);
+  }
+
+  .ghost-btn {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    padding: 0 1.1rem;
+    border-radius: 0.85rem;
+    border: 1.5px solid var(--ink);
+    background: transparent;
+    cursor: pointer;
+    transition:
+      background 150ms,
+      color 150ms,
+      transform 100ms;
+  }
+  .ghost-btn:hover:not(:disabled) {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .ghost-btn:active:not(:disabled) {
+    transform: translateY(1px);
+  }
+  .ghost-btn:disabled {
+    opacity: 0.35;
+    cursor: default;
+  }
+  .ghost-btn:focus-visible,
+  a:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+
+  .logo-mark {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 2px solid var(--ink);
+    background: conic-gradient(var(--accent) 0 25%, transparent 0);
+  }
+
+  .stat {
+    transition: background 200ms;
+  }
+  .stat:hover {
+    background: var(--paper-deep);
+  }
+
+  .pulse-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    margin-right: 0.35rem;
+    animation: pulse 1s ease-in-out infinite;
+  }
+
+  .grain {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 50;
+    opacity: 0.08;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .rise {
+    animation: rise 700ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+  .count-in {
+    display: inline-block;
+    animation: rise 600ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+  .bar-fill {
+    transition: transform 900ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes pulse {
+  50% {
+    opacity: 0.25;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
